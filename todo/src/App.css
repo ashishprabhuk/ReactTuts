@@ -1,0 +1,206 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*:focus {
+  outline: none;
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  margin: auto;
+}
+
+.hText,
+.fText {
+  padding: 5px 0px;
+}
+
+span {
+  color: #ffffff;
+}
+
+header {
+  background-color: #0091ffce;
+  width: 100%;
+  display: grid;
+  place-content: center;
+}
+
+footer {
+  background-color: #0091ffce;
+  color: #000000ce;
+  width: 100%;
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 15px;
+}
+
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.item {
+  background-color: rgb(197, 197, 197);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px;
+  margin: 10px 0px;
+  border-radius: 5px;
+}
+
+.item:first-child {
+  margin: 0;
+}
+
+.item input {
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
+  min-height: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.item label {
+  font-size: 20px;
+}
+
+.item svg {
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
+  min-height: 20px;
+  cursor: pointer;
+  color: #fe2a2ae3;
+}
+.item svg :hover {
+  cursor: pointer;
+  color: #ff0000;
+}
+
+p {
+  font-weight: 600;
+}
+
+.new {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: 10px 0px;
+  padding: 10px 10px;
+  color: #fff;
+  background-color: #0092ff;
+  border: none;
+  border-radius: 5px;
+}
+.new:hover {
+  background-color: #2a2a2a;
+}
+
+.addForm {
+  width: 100%;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  background-color: #d2d2d2;
+}
+.addForm label {
+  color: #000000ca;
+}
+
+.addBox {
+  width: 100%;
+  background-color: #ffffff;
+  border: none;
+  height: 8vh;
+  color: #000;
+  font-size: 16px;
+  border-radius: 5px;
+  padding: 10px 10px;
+}
+
+.addBox::placeholder {
+  color: #060606ca;
+  font-weight: 520;
+  font-size: 16px;
+}
+
+.addBtn {
+  width: 10vh;
+  height: 8vh;
+  background-color: #0091ff5a;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchForm {
+  width: 100%;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  background-color: #d2d2d2;
+}
+
+.searchBox {
+  width: 100%;
+  background-color: #ffffff;
+  border: none;
+  height: 8vh;
+  color: #000;
+  font-size: 16px;
+  border-radius: 5px;
+  padding: 10px 10px;
+}
+
+.searchBox::placeholder {
+  color: #060606ca;
+  font-weight: 520;
+  font-size: 16px;
+}
+
+.searchBtn {
+  width: 10vh;
+  height: 8vh;
+  background-color: #0091ff5a;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
