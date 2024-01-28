@@ -31,16 +31,17 @@ li{
 }
 
 .tableDiv {
-  overflow: auto; /* Enable horizontal scrolling if needed */
-  /* max-width: 1260px; */
-  margin: 0px 30px;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
 table {
   border-collapse: collapse;
   width: 80%;
-  margin: 20px;
+  margin: 10px;
   font-size: 13px;
 }
 
