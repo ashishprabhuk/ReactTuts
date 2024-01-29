@@ -1,11 +1,19 @@
 import { Link } from "react-router-dom";
-import './App.css';
+import Feed from "./Feed";
+import "./App.css";
 
-const Home = () => {
+const Home = ({ posts }) => {
   return (
-    <div style={{display:"flex", flexDirection:"row", justifyContent:"center", alignItems:"center"}}>
-      <p >Home</p>
-    </div>
+    <main
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {posts.length ? <Feed posts={posts} /> : <p>No Posts to display</p>}
+    </main>
   );
 };
 

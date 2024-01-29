@@ -1,7 +1,7 @@
 const About = () => {
   return (
     <div>
-      about
+      Am announcing this as a new Instagram.
     </div>
   )
 }

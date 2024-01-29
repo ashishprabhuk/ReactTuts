@@ -5,12 +5,25 @@
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-label{
+#root{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main{
+  margin: 50px 0px;
+}
+
+.lSearch{
   position: absolute;
   left: -9999999px;
 }
 
 .header{
+  position: fixed;
+  top: 0;
+  width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -42,21 +55,57 @@ input:focus{
   outline: none;
 }
 
-li{
-  list-style-type: none;
+.button-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px;
   border-radius: 5px;
 }
 
-li:hover{
+.button-container:hover {
   background-color: #7373733e;
 }
 
-.link{
-  text-decoration: none;
+.button {
   color: #fff;
+  border: none;
+  padding: 5px;
+  background: none;
+  cursor: pointer;
+}
+
+.postbox{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0px;
+  gap: 5px;
+}
+
+.datetime{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.submitBtn{
+  background-color: #cccccc;
+  color: #2f2f2f;
+  border: none;
+  border-radius: 5px ;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.footer {
+  background-color: #1a1a1a;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }

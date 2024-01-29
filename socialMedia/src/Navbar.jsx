@@ -6,23 +6,23 @@ const Navbar = ({ title, search, setSearch }) => {
       <nav className="navbar">
         <ul className="header">
           <h1>{title}</h1>
-          <li>
-            <Link to="/" className="link">
-              Home
+          <div className="button-container">
+            <Link to="/" className="button">
+              <button className="button">Home</button>
             </Link>
-          </li>
-          <li>
-            <Link to="/about" className="link">
-              About
+          </div>
+          <div className="button-container">
+            <Link to="/posts" className="button">
+              <button className="button">Posts</button>
             </Link>
-          </li>
-          <li>
-            <Link to="/posts" className="link">
-              Posts
+          </div>
+          <div className="button-container">
+            <Link to="/about" className="button">
+              <button className="button">About</button>
             </Link>
-          </li>
+          </div>
           <form onSubmit={(e) => e.preventDefault()}>
-            <label htmlFor="search">Search</label>
+            <label htmlFor="search" className="lSearch">Search</label>
             <input
               id="search"
               type="text"
