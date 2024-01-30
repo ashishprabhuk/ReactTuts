@@ -1,12 +1,15 @@
 import Feed from "./Feed";
 import { MutatingDots } from "react-loader-spinner";
 import "./App.css";
+import { useContext } from "react";
+import DataContext from "./context/DataContext";
 
-const Home = ({ searchResults, isLoading, fetchError }) => {
+const Home = () => {
+  const { searchResults, isLoading, fetchError }= useContext(DataContext);
   return (
     <main>
       {isLoading && (
-        <p className="statusMsg">
+        <div className="loading">
           <MutatingDots
             visible={true}
             height="100"
@@ -18,7 +21,7 @@ const Home = ({ searchResults, isLoading, fetchError }) => {
             wrapperStyle={{}}
             wrapperClass=""
           />
-        </p>
+        </div>
       )}
       {!isLoading && fetchError && (
         <p className="statusMsg" style={{ color: "red" }}>

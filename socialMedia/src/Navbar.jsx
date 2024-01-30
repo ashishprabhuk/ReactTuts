@@ -2,7 +2,11 @@ import { Link } from "react-router-dom";
 import { GoHomeFill } from "react-icons/go";
 import { FaLaptop, FaMobile, FaPlus, FaTablet, FaUser} from "react-icons/fa";
 import useWindowSize from "./hooks/useWindowSize";
-const Navbar = ({ title, search, setSearch }) => {
+import { useContext } from "react";
+import DataContext from "./context/DataContext";
+
+const Navbar = ({ title}) => {
+  const { search, setSearch } = useContext(DataContext);
   const { width } = useWindowSize();
   return (
     <>

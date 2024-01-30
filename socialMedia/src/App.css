@@ -25,7 +25,7 @@
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
   background-color: #1a1a1a;
   color: #fff;
 }
@@ -174,11 +174,12 @@ input:focus ,textarea:focus{
   gap: 5px;
 }
 
-.statusMsg{
+.loading{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: auto;
 }
 
 .content{
