@@ -2,17 +2,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 #root{
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-}
-
-main{
-  margin: 50px 0px;
+  height: 100vh;
 }
 
 .lSearch{
@@ -21,20 +17,27 @@ main{
 }
 
 .header{
-  position: fixed;
+  position: relative;
   top: 0;
   width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  flex-shrink: 1;
   justify-content: space-around;
   align-items: center;
   gap: 20px;
   background-color: #1a1a1a;
-  padding: 15px 10px;
   color: #fff;
-  text-decoration: none;
+}
+
+.footer {
+  background-color: #1a1a1a;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 nav{
@@ -42,17 +45,95 @@ nav{
   align-items: center;
 }
 
-input{
+main{
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+input, textarea{
   background-color: #7373733e;
+  margin: 10px 0px;
   padding: 10px;
   border: none;
   border-radius: 5px;
   color: #fff;
   width: 100%;
   min-width: 200px;
+  max-width: 460px;
+  max-height: 200px;
 }
-input:focus{
+
+input:focus ,textarea:focus{
   outline: none;
+}
+
+.newPost {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.newPost form {
+  margin: 10px 20px;
+  padding: 10px;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.newPost h1{
+  margin: 20px 0px;
+}
+
+.newPost label{
+  display: block; 
+  text-align: left; 
+  margin-top: 10px;
+}
+
+.newPost input, textarea{
+  margin: 10px 0px;
+  color: black;
+}
+
+.newPost button{
+  min-width: 100px;
+  align-self: center;
+  margin-top: 10px;
+}
+
+.submitBtn{
+  background-color: #cccccc;
+  color: #2f2f2f;
+  border: none;
+  border-radius: 5px ;
+  padding: 10px 15px;
+  cursor: pointer;
+  align-self: center;
+}
+
+.deleteBtn{
+  background-color: #ff5050;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px ;
+  padding: 10px 15px;
+  margin: 5px 10px;
+  cursor: pointer;
+  min-width: 100px;
+  align-self: center;
+}
+.editBtn{
+  background-color: #0077ff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px ;
+  padding: 10px 15px;
+  cursor: pointer;
+  min-width: 100px;
+  align-self: center;
 }
 
 .button-container {
@@ -69,19 +150,65 @@ input:focus{
 
 .button {
   color: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   border: none;
   padding: 5px;
+  font-size: 20px;
   background: none;
   cursor: pointer;
 }
 
-.postbox{
+.button .insta {
+  text-decoration: none;
+}
+
+.postbox,.noPost{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 20px 0px;
+  margin: 10px 20px;
   gap: 5px;
+}
+
+.statusMsg{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 20px;
+}
+
+.btns{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.About{
+  display: flex;
+  text-align: justify;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 100px;
+  gap: 5px;
+}
+
+.About h1{
+  margin: 10px 0px;
 }
 
 .datetime{
@@ -91,21 +218,7 @@ input:focus{
   gap: 5px;
 }
 
-.submitBtn{
-  background-color: #cccccc;
-  color: #2f2f2f;
-  border: none;
-  border-radius: 5px ;
-  padding: 10px 15px;
-  cursor: pointer;
-}
-
-.footer {
-  background-color: #1a1a1a;
-  color: white;
-  padding: 10px;
-  text-align: center;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+img{
+  border-radius: 7px;
+  margin: 5px 0px;
 }

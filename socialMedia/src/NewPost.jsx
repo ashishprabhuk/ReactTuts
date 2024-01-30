@@ -1,40 +1,24 @@
-import React, { useState } from "react";
-
-function NewPost() {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-  const [date, setDate] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setBody("");
-    setTitle("");
-  };
-
+function NewPost({title, setTitle, body, setBody, handleSubmit}) {
   return (
-    <div>
+    <div className="newPost">
       <h1>New Post</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title:</label>
         <input
           type="text"
           id="title"
+          required
+          autoFocus
           value={title}
-          onChange={(e) => setTitle(e.target.value())}
+          onChange={(e) => setTitle(e.target.value)}
         />
-        <label htmlFor="body">Body:</label>
-        <input
+        <label htmlFor="body">Post:</label>
+        <textarea
           type="text"
           id="body"
+          required
           value={body}
-          onChange={(e) => setBody(e.target.value())}
-        />
-        <label htmlFor="date">Date:</label>
-        <input
-          type="date"
-          id="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value())}
+          onChange={(e) => setBody(e.target.value)}
         />
         <button type="submit" className="submitBtn">Post</button>
       </form>
