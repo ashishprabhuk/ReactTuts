@@ -14,3 +14,78 @@
 .calender-box{
   margin: 20px 20px;
 }
+
+.modal-body{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.radio-box{
+  border: 1px solid #00000023;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 5px;
+}
+
+.snacks{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.form-label{
+  margin-right: 10px;
+}
+
+.fc-button{
+  margin: 10px 0px;
+}
+
+.fc .fc-toolbar {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.fc .fc-scrollgrid{
+  border-radius: 10px;
+}
+
+.kg-box{
+  max-width: 225px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+}
+
+.nutrients{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #808080;
+  color: white;
+  margin:0px 280px;
+  padding: 10px;
+  border-radius: 10px;
+}
+.nuts{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  .fc .fc-toolbar {
+      flex-direction: column;
+      align-items: center;  
+      justify-content: center;
+      gap: 10px;
+  }
+}

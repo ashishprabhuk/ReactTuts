@@ -9,10 +9,10 @@ const Header = () => {
     <>
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#home"><b>HealthifyMe</b></Navbar.Brand>
+          <Navbar.Brand href="/"><b>EatWise</b></Navbar.Brand>
           <Navbar.Collapse className="justify-content-end">
             <Button variant="primary">Create</Button>
-            <Nav.Link href="meal">
+            <Nav.Link href="/meal">
               <Button className="m-2" variant="warning">Meal</Button>
             </Nav.Link>
           </Navbar.Collapse>

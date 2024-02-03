@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import { formatDate } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -8,31 +8,50 @@ import listPlugin from "@fullcalendar/list";
 import bootstrapPlugin from "@fullcalendar/bootstrap";
 import {
   Modal,
+  Form,
   Button,
   Row,
   Col,
   Container,
-  ButtonGroup,
+  FloatingLabel,
 } from "react-bootstrap";
 
 const Calendar = () => {
-  const lArr = "<";
-  const rArr = ">";
   const [events, setEvents] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [title, setTitle] = useState("");
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+
+  const handleCheckboxChange = (e) => {
+    setIsCheckboxChecked(e.target.checked);
+  };
 
   const handleDate = (selected) => {
-    const title = prompt("Enter Title: ");
-    const calenderApi = selected.view.calendar;
-    calenderApi.unselect();
+    const calendarApi = selected.view.calendar;
+    calendarApi.unselect();
+    setSelectedEvent(selected);
+    setShowModal(true);
+  };
 
-    if (title) {
-      calenderApi.addEvent({
-        id: `${selected.dateStr}-${title}`,
+  const handleModalClose = () => {
+    setShowModal(false);
+    setSelectedEvent(null);
+    setTitle("");
+  };
+
+  const handleModalSubmit = () => {
+    if (selectedEvent) {
+      const calendarApi = selectedEvent.view.calendar;
+      calendarApi.addEvent({
+        id: `${selectedEvent.dateStr}-${title}`,
         title,
-        start: selected.startStr,
-        end: selected.endStr,
-        allDay: selected.allDay,
+        start: selectedEvent.startStr,
+        end: selectedEvent.endStr,
+        allDay: selectedEvent.allDay,
       });
+
+      setShowModal(false);
     }
   };
 
@@ -48,29 +67,6 @@ const Calendar = () => {
 
   return (
     <>
-      {/* <Container className="m-3 justify-content-center align-content-center">
-        <Row className="justify-content-center align-content-center">
-          <Col>
-            <ButtonGroup aria-label="Basic example">
-              <Button variant="secondary">{lArr}</Button>
-              <Button variant="secondary">{rArr}</Button>
-            </ButtonGroup>
-          </Col>
-          <Col xs={6}>
-            <h1>February</h1>
-          </Col>
-          <Col>
-            <ButtonGroup aria-label="Basic example">
-              <Button variant="secondary">Month</Button>
-              <Button variant="secondary">Week</Button>
-              <Button variant="secondary">Day</Button>
-            </ButtonGroup>
-          </Col>
-        </Row>
-      </Container> */}
-      {/* <Container>
-        Container
-      </Container> */}
       <Container className="calender-box">
         <FullCalendar
           height="75vh"
@@ -107,6 +103,109 @@ const Calendar = () => {
           ]}
         />
       </Container>
+
+      <Modal show={showModal} onHide={handleModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create Diet Schedule</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="modal-body">
+          <FloatingLabel label="Plan Title">
+            <Form.Control
+              type="text"
+              label="Title"
+              placeholder="Plan Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </FloatingLabel>
+          <FloatingLabel controlId="floatingSelect" label="Diet Type">
+            <Form.Select aria-label="Default select example">
+              <option>Select the Diet Type</option>
+              <option value="1">5:2 Diet</option>
+              <option value="2">Classic Bodybuilding</option>
+              <option value="3">Flexible Dieting</option>
+              <option value="4">Ketogenic Diet</option>
+              <option value="5">Low Carb</option>
+              <option value="6">Low Fat</option>
+              <option value="7">Zone Diet</option>
+            </Form.Select>
+          </FloatingLabel>
+          <Container className="radio-box">
+            <Form>
+              {["radio"].map((type) => (
+                <div key={`inline-${type}`}>
+                  <Form.Label className="form-label">No. of Meals: </Form.Label>
+                  <Form.Check
+                    inline
+                    label="2"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-2`}
+                  />
+                  <Form.Check
+                    inline
+                    label="3"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-3`}
+                  />
+                  <Form.Check
+                    inline
+                    label="4"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-4`}
+                  />
+                </div>
+              ))}
+            </Form>
+
+            <Form className='snacks'>
+              <Form.Check // prettier-ignore
+                type="checkbox"
+                id="checkbox"
+                label="Snacks Intake: "
+                onChange={handleCheckboxChange}
+              />
+              {["radio"].map((type) => (
+                <div key={`inline-${type}`}>
+                  <Form.Check
+                    inline
+                    disabled={!isCheckboxChecked}
+                    label="1"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-1`}
+                  />
+                  <Form.Check
+                    inline
+                    disabled={!isCheckboxChecked}
+                    label="2"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-2`}
+                  />
+                </div>
+              ))}
+            </Form>
+          </Container>
+          <FloatingLabel controlId="floatingTextarea2" label="Description">
+            <Form.Control
+              as="textarea"
+              placeholder="Leave a comment here"
+              style={{ height: "100px" }}
+            />
+          </FloatingLabel>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleModalClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleModalSubmit}>
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
