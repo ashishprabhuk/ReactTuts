@@ -1,4 +1,3 @@
-// MealBox.js
 import axios from "axios";
 import React, { useState } from "react";
 import MealList from "./MealList";
@@ -9,11 +8,12 @@ function MealBox() {
   const [mealData, setMealData] = useState(null);
   const [calories, setCalories] = useState(2000);
   const API_KEY = "ce2313ce148c4f87998b9928fd1d20ba";
+  const API_KEY2 = "800cb3c3a637417e91c1ee42c18d88b4";
 
   async function getMealData() {
     try {
       const response = await axios.get(
-        `https://api.spoonacular.com/mealplanner/generate?apiKey=ce2313ce148c4f87998b9928fd1d20ba&timeFrame=day&targetCalories=${calories}`
+        `https://api.spoonacular.com/mealplanner/generate?apiKey=${API_KEY2}&timeFrame=day&targetCalories=${calories}`
       );
       setMealData(response.data);
       console.log(response.data);
@@ -22,13 +22,9 @@ function MealBox() {
     }
   }
 
-  function handleChange(e) {
-    setCalories(e.target.value);
-  }
-
   return (
     <div>
-      <h1>Meal Plan Generator</h1>
+      <h1 style={{margin:"10px 0px"}}>Meal Plan Generator</h1>
       <div
         style={{
           display: "flex",
@@ -42,6 +38,8 @@ function MealBox() {
             <Form.Control
               type="number"
               id="inlineFormInputGroupUsername"
+              value={calories}
+              onChange={e=> setCalories(e.target.value)}
               placeholder="Calories (eg:2000)"
             />
           </InputGroup>

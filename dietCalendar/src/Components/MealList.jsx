@@ -1,4 +1,3 @@
-// MealList.js
 import React from "react";
 import Meal from "./Meal";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -7,7 +6,7 @@ export default function MealList({ mealData }) {
   const nutrients = mealData.nutrients;
 
   return (
-    <main>
+    <main className="box">
       <section className="nutrients">
         <h1>Nutrients</h1>
         <div className="nuts">

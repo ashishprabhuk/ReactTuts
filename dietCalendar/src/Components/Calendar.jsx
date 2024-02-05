@@ -1,31 +1,32 @@
-import React, { useState } from "react";
-import FullCalendar from "@fullcalendar/react";
-import { formatDate } from "@fullcalendar/core";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import listPlugin from "@fullcalendar/list";
-import bootstrapPlugin from "@fullcalendar/bootstrap";
-import {
-  Modal,
-  Form,
-  Button,
-  Row,
-  Col,
-  Container,
-  FloatingLabel,
-} from "react-bootstrap";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import DeleteModal from "./DeleteModal";
+import EditModal from "./EditModal";
+import CreateModal from "./CreateModal";
+import CalendarBox from "./CalendarBox";
 
 const Calendar = () => {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState(JSON.parse(localStorage.getItem("diet")) || []);
   const [showModal, setShowModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [show, setShow] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [title, setTitle] = useState("");
+  const [editTitle, setEditTitle] = useState("");
+  const [diet, setDiet] = useState("");
+  const [editDiet, setEditDiet] = useState("");
+  const [desc, setDesc] = useState("");
+  const [editDesc, setEditDesc] = useState("");
+  const [meals, setMeals] = useState([]);
+  const [editMeals, setEditMeals] = useState([]);
+  const [snacks, setSnacks] = useState([]);
+  const [editSnacks, setEditSnacks] = useState([]);
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+  const [isEditCheck, setEditCheck] = useState(false);
 
-  const handleCheckboxChange = (e) => {
-    setIsCheckboxChecked(e.target.checked);
-  };
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleDate = (selected) => {
     const calendarApi = selected.view.calendar;
@@ -36,176 +37,181 @@ const Calendar = () => {
 
   const handleModalClose = () => {
     setShowModal(false);
+    setEditModal(false);
     setSelectedEvent(null);
     setTitle("");
+    setDiet("");
+    setMeals([]);
+    setSnacks([]);
+    setIsCheckboxChecked(false);
+    setDesc("");
+  };
+
+  useEffect(() => {
+    const storedEvents = JSON.parse(localStorage.getItem("diet")) || [];
+    setEvents(storedEvents);
+  }, []);
+  
+
+  const handleEvent = (selected) => {
+    setSelectedEvent(selected);
+    setEditModal(true);
+    setTitle(selected.event.title);
+    setDiet(selected.event.diet);
+    setDesc(selected.event.desc);
+    setMeals(selected.event.meals);
+    setSnacks(selected.event.snacks);
+    setIsCheckboxChecked(selected.event.isCheckboxChecked);
   };
 
   const handleModalSubmit = () => {
     if (selectedEvent) {
       const calendarApi = selectedEvent.view.calendar;
-      calendarApi.addEvent({
-        id: `${selectedEvent.dateStr}-${title}`,
+      const newEvent = {
+        id: selectedEvent.id || uuidv4(),
         title,
+        diet,
+        desc,
+        meals,
+        isCheckboxChecked,
+        snacks,
         start: selectedEvent.startStr,
         end: selectedEvent.endStr,
         allDay: selectedEvent.allDay,
-      });
-
+      };
+      calendarApi.addEvent(newEvent);
+      const allEvents = [...events, newEvent];
+      setEvents(allEvents);
+      localStorage.setItem("diet", JSON.stringify(allEvents));
       setShowModal(false);
+      setEditModal(false);
     }
   };
 
-  const handleEvent = (selected) => {
-    if (
-      window.confirm(
-        `Are you sure you want to delete the event '${selected.event.title}'`
-      )
-    ) {
-      selected.event.remove();
+  const handleEventUpdate = () => {
+    if (selectedEvent) {
+      const calendarApi = selectedEvent.view.calendar;
+  
+      const updatedEvent = {
+        id: selectedEvent.id,
+        title: editTitle,
+        diet: editDiet,
+        desc: editDesc,
+        meals: editMeals,
+        isCheckboxChecked: isEditCheck,
+        snacks: editSnacks,
+        start: selectedEvent.startStr,
+        end: selectedEvent.endStr,
+        allDay: selectedEvent.allDay,
+      };
+  
+      selectedEvent.event.setProp("title", updatedEvent.title);
+      selectedEvent.event.setProp("diet", updatedEvent.diet);
+      selectedEvent.event.setProp("desc", updatedEvent.desc);
+      selectedEvent.event.setProp("meals", updatedEvent.meals);
+      selectedEvent.event.setProp("isCheckboxChecked", updatedEvent.isCheckboxChecked);
+      selectedEvent.event.setProp("snacks", updatedEvent.snacks);
+      selectedEvent.event.setStart(updatedEvent.start);
+      selectedEvent.event.setEnd(updatedEvent.end);
+      selectedEvent.event.setAllDay(updatedEvent.allDay);
+  
+      const updatedEvents = events.map((event) =>
+        event.id === selectedEvent.id ? updatedEvent : event
+      );
+      const allEvents = [...events, updatedEvent];
+  
+      setEvents(allEvents);
+      localStorage.setItem("diet", JSON.stringify(allEvents));
+  
+      handleModalClose();
     }
   };
+  
+  
+
+  const handleDelete = () => {
+    setShow(true);
+    setEditModal(false);
+  };
+
+  const handleDeleteConfirmation = () => {
+    if (selectedEvent) {
+      selectedEvent.event.remove();
+      const updatedEvents = events.filter((event) => event.id !== selectedEvent.id);
+      setEvents(updatedEvents);
+      localStorage.setItem("diet", JSON.stringify(updatedEvents));
+      setShow(false);
+    }
+  };
+  
+
+  const handleToggle = (value, setter) => {
+    setter((prevValues) =>
+      prevValues.includes(value)
+        ? prevValues.filter((item) => item !== value)
+        : [...prevValues, value]
+    );
+  };
+
+  const handleMeals = (value) => handleToggle(value, setMeals);
+  const handleSnacks = (value) => handleToggle(value, setSnacks);
 
   return (
     <>
-      <Container className="calender-box">
-        <FullCalendar
-          height="75vh"
-          plugins={[
-            dayGridPlugin,
-            timeGridPlugin,
-            interactionPlugin,
-            listPlugin,
-          ]}
-          headerToolbar={{
-            left: "prev,next today",
-            center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
-          }}
-          initialView="dayGridMonth"
-          editable={true}
-          selectable={true}
-          selectMirror={true}
-          dayMaxEvents={true}
-          select={handleDate}
-          eventClick={handleEvent}
-          eventsSet={(events) => setEvents(events)}
-          initialEvents={[
-            {
-              id: "12315",
-              title: "All-day event",
-              date: "2022-09-14",
-            },
-            {
-              id: "5123",
-              title: "Timed event",
-              date: "2022-09-28",
-            },
-          ]}
-        />
-      </Container>
+      <CalendarBox
+        handleDate={handleDate}
+        handleEvent={handleEvent}
+        events={events}
+        setEvents={setEvents}
+      />
 
-      <Modal show={showModal} onHide={handleModalClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Create Diet Schedule</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="modal-body">
-          <FloatingLabel label="Plan Title">
-            <Form.Control
-              type="text"
-              label="Title"
-              placeholder="Plan Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </FloatingLabel>
-          <FloatingLabel controlId="floatingSelect" label="Diet Type">
-            <Form.Select aria-label="Default select example">
-              <option>Select the Diet Type</option>
-              <option value="1">5:2 Diet</option>
-              <option value="2">Classic Bodybuilding</option>
-              <option value="3">Flexible Dieting</option>
-              <option value="4">Ketogenic Diet</option>
-              <option value="5">Low Carb</option>
-              <option value="6">Low Fat</option>
-              <option value="7">Zone Diet</option>
-            </Form.Select>
-          </FloatingLabel>
-          <Container className="radio-box">
-            <Form>
-              {["radio"].map((type) => (
-                <div key={`inline-${type}`}>
-                  <Form.Label className="form-label">No. of Meals: </Form.Label>
-                  <Form.Check
-                    inline
-                    label="2"
-                    name="group1"
-                    type={type}
-                    id={`inline-${type}-2`}
-                  />
-                  <Form.Check
-                    inline
-                    label="3"
-                    name="group1"
-                    type={type}
-                    id={`inline-${type}-3`}
-                  />
-                  <Form.Check
-                    inline
-                    label="4"
-                    name="group1"
-                    type={type}
-                    id={`inline-${type}-4`}
-                  />
-                </div>
-              ))}
-            </Form>
+      <CreateModal
+        title={title}
+        setTitle={setTitle}
+        diet={diet}
+        setDiet={setDiet}
+        handleMeals={handleMeals}
+        handleSnacks={handleSnacks}
+        setSnacks={setSnacks}
+        desc={desc}
+        setDesc={setDesc}
+        showModal={showModal}
+        isCheckboxChecked={isCheckboxChecked}
+        setIsCheckboxChecked={setIsCheckboxChecked}
+        handleModalSubmit={handleModalSubmit}
+        handleModalClose={handleModalClose}
+      />
 
-            <Form className='snacks'>
-              <Form.Check // prettier-ignore
-                type="checkbox"
-                id="checkbox"
-                label="Snacks Intake: "
-                onChange={handleCheckboxChange}
-              />
-              {["radio"].map((type) => (
-                <div key={`inline-${type}`}>
-                  <Form.Check
-                    inline
-                    disabled={!isCheckboxChecked}
-                    label="1"
-                    name="group1"
-                    type={type}
-                    id={`inline-${type}-1`}
-                  />
-                  <Form.Check
-                    inline
-                    disabled={!isCheckboxChecked}
-                    label="2"
-                    name="group1"
-                    type={type}
-                    id={`inline-${type}-2`}
-                  />
-                </div>
-              ))}
-            </Form>
-          </Container>
-          <FloatingLabel controlId="floatingTextarea2" label="Description">
-            <Form.Control
-              as="textarea"
-              placeholder="Leave a comment here"
-              style={{ height: "100px" }}
-            />
-          </FloatingLabel>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleModalClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleModalSubmit}>
-            Save
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <EditModal
+        events={events}
+        selectedEvent={selectedEvent}
+        setSelectedEvent={setSelectedEvent}
+        editModal={editModal}
+        editTitle={editTitle}
+        setEditTitle={setEditTitle}
+        editDiet={editDiet}
+        setEditDiet={setEditDiet}
+        editMeals={editMeals}
+        setEditMeals={setEditMeals}
+        editSnacks={editSnacks}
+        setEditSnacks={setEditSnacks}
+        editDesc={editDesc}
+        setEditDesc={setEditDesc}
+        isEditCheck={isEditCheck}
+        setEditCheck={setEditCheck}
+        handleModalClose={handleModalClose}
+        handleSnacks={handleSnacks}
+        handleMeals={handleMeals}
+        handleEvent={handleEvent}
+        handleEventUpdate={handleEventUpdate}
+        handleDelete={handleDelete}
+      />
+
+      <DeleteModal
+        show={show}
+        handleClose={handleClose}
+        handleDeleteConfirmation={handleDeleteConfirmation}
+      />
     </>
   );
 };

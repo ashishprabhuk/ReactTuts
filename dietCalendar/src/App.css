@@ -1,4 +1,4 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -11,17 +11,17 @@
   font-family: Inter, system-ui, Helvetica, Arial, sans-serif;
 }
 
-.calender-box{
+.calender-box {
   margin: 20px 20px;
 }
 
-.modal-body{
+.modal-body {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.radio-box{
+.radio-box {
   border: 1px solid #00000023;
   border-radius: 6px;
   display: flex;
@@ -30,17 +30,28 @@
   padding-top: 5px;
 }
 
-.snacks{
+.logo {
+  background: linear-gradient(
+    to right,
+    #ff8a00,
+    #e52e71
+  ); /* Adjust colors as needed */
+  -webkit-background-clip: text;
+  color: transparent;
+  display: inline-block; /* Ensure the gradient applies to the text only */
+}
+
+.snacks {
   display: flex;
   flex-direction: row;
   gap: 10px;
 }
 
-.form-label{
+.form-label {
   margin-right: 10px;
 }
 
-.fc-button{
+.fc-button {
   margin: 10px 0px;
 }
 
@@ -50,11 +61,21 @@
   justify-content: space-between;
 }
 
-.fc .fc-scrollgrid{
+.fc .fc-scrollgrid {
   border-radius: 10px;
 }
 
-.kg-box{
+.fc .fc-popover {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 6px;
+  position: absolute;
+  z-index: 1;
+}
+
+.modal {
+  z-index: 9999;
+}
+
+.kg-box {
   max-width: 225px;
   display: flex;
   justify-content: center;
@@ -62,30 +83,104 @@
   justify-self: center;
 }
 
-.nutrients{
+.box {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  justify-self: center;
   align-items: center;
-  background-color: #808080;
+  padding: 10px 10px;
+}
+
+.nutrients {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-self: center;
+  align-items: center;
+  background-color: #212529;
   color: white;
-  margin:0px 280px;
+  width: 800px;
+  margin: 10px;
   padding: 10px;
   border-radius: 10px;
 }
-.nuts{
+
+.nuts {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 0px 10px;
+  margin: 10px 10px;
+}
+
+.cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /* align-items: center; */
   gap: 10px;
 }
 
+.cardbox {
+  background-color: #21252937;
+  color: #fff;
+  border-radius: 0px 0px 5px 5px;
+}
+
+.meals {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-shrink: 1;
+  flex-grow: 1;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  margin: 10px;
+}
+
+@media (max-width: 768px) {
+  .nutrients {
+    max-width: 450px;
+    width: 100%;
+    margin: 10px 10px;
+    padding: 8px;
+  }
+
+  .nuts {
+    display: block;
+    width: 100%;
+    padding: 0px 10px;
+    margin: 10px 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .meals {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
 @media only screen and (max-width: 600px) {
+  .meals {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    margin: 10px;
+  }
   .fc .fc-toolbar {
-      flex-direction: column;
-      align-items: center;  
-      justify-content: center;
-      gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
   }
 }
