@@ -7,7 +7,9 @@ import CreateModal from "./CreateModal";
 import CalendarBox from "./CalendarBox";
 
 const Calendar = () => {
-  const [events, setEvents] = useState(JSON.parse(localStorage.getItem("diet")) || []);
+  const [events, setEvents] = useState(
+    JSON.parse(localStorage.getItem("diet")) || []
+  );
   const [showModal, setShowModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [show, setShow] = useState(false);
@@ -51,7 +53,6 @@ const Calendar = () => {
     const storedEvents = JSON.parse(localStorage.getItem("diet")) || [];
     setEvents(storedEvents);
   }, []);
-  
 
   const handleEvent = (selected) => {
     setSelectedEvent(selected);
@@ -64,11 +65,16 @@ const Calendar = () => {
     setIsCheckboxChecked(selected.event.isCheckboxChecked);
   };
 
+  
+
   const handleModalSubmit = () => {
     if (selectedEvent) {
       const calendarApi = selectedEvent.view.calendar;
+      const id = events.length
+      ? (parseInt(events[events.length - 1].id, 10) + 1).toString()
+      : "1";
       const newEvent = {
-        id: selectedEvent.id || uuidv4(),
+        id: id,
         title,
         diet,
         desc,
@@ -88,10 +94,42 @@ const Calendar = () => {
     }
   };
 
+  //   const handleModalSubmit = () => {
+  //   if (selectedEvent) {
+  //     const calendarApi = selectedEvent.view.calendar;
+  //     const isExistingEvent = events.some((event) => event.id === selectedEvent.id);
+  //     const newEvent = {
+  //       id: selectedEvent.id || uuidv4(),
+  //       title,
+  //       diet,
+  //       desc,
+  //       meals,
+  //       isCheckboxChecked,
+  //       snacks,
+  //       start: selectedEvent.startStr,
+  //       end: selectedEvent.endStr,
+  //       allDay: selectedEvent.allDay,
+  //     };
+  //     calendarApi.addEvent(newEvent);
+  //     if (isExistingEvent) {
+  //       const updatedEvents = events.map((event) =>
+  //         event.id === selectedEvent.id ? newEvent : event
+  //       );
+  //       setEvents(updatedEvents);
+  //       localStorage.setItem("diet", JSON.stringify(updatedEvents));
+  //     } else {
+  //       const allEvents = [...events, newEvent];
+  //       setEvents(allEvents);
+  //       localStorage.setItem("diet", JSON.stringify(allEvents));
+  //     }
+  //     setShowModal(false);
+  //     setEditModal(false);
+  //   }
+  // };
+
   const handleEventUpdate = () => {
     if (selectedEvent) {
       const calendarApi = selectedEvent.view.calendar;
-  
       const updatedEvent = {
         id: selectedEvent.id,
         title: editTitle,
@@ -104,35 +142,53 @@ const Calendar = () => {
         end: selectedEvent.endStr,
         allDay: selectedEvent.allDay,
       };
-  
       selectedEvent.event.setProp("title", updatedEvent.title);
       selectedEvent.event.setProp("diet", updatedEvent.diet);
       selectedEvent.event.setProp("desc", updatedEvent.desc);
       selectedEvent.event.setProp("meals", updatedEvent.meals);
-      selectedEvent.event.setProp("isCheckboxChecked", updatedEvent.isCheckboxChecked);
+      selectedEvent.event.setProp(
+        "isCheckboxChecked",
+        updatedEvent.isCheckboxChecked
+      );
       selectedEvent.event.setProp("snacks", updatedEvent.snacks);
       selectedEvent.event.setStart(updatedEvent.start);
       selectedEvent.event.setEnd(updatedEvent.end);
       selectedEvent.event.setAllDay(updatedEvent.allDay);
-  
       const updatedEvents = events.map((event) =>
         event.id === selectedEvent.id ? updatedEvent : event
       );
-      const allEvents = [...events, updatedEvent];
-  
-      setEvents(allEvents);
-      localStorage.setItem("diet", JSON.stringify(allEvents));
-  
+      setEvents(updatedEvents);
+      localStorage.setItem("diet", JSON.stringify(updatedEvents));
       handleModalClose();
     }
   };
-  
-  
+
+  // const handleDelete = () => {
+  //   setShow(true);
+  //   setEditModal(false);
+  // };
 
   const handleDelete = () => {
-    setShow(true);
-    setEditModal(false);
+    if (selectedEvent) {
+      setShow(true);
+      setEditModal(false);
+    } else {
+      console.error("No event selected for deletion.");
+    }
   };
+  
+
+  // const handleDeleteConfirmation = () => {
+  //   if (selectedEvent) {
+  //     selectedEvent.event.remove();
+  //     const updatedEvents = events.filter(
+  //       (event) => event.id !== selectedEvent.id
+  //     );
+  //     setEvents(updatedEvents);
+  //     localStorage.setItem("diet", JSON.stringify(updatedEvents));
+  //     setShow(false);
+  //   }
+  // };
 
   const handleDeleteConfirmation = () => {
     if (selectedEvent) {
@@ -141,20 +197,30 @@ const Calendar = () => {
       setEvents(updatedEvents);
       localStorage.setItem("diet", JSON.stringify(updatedEvents));
       setShow(false);
+      setSelectedEvent(null);
+    } else {
+      console.error("No event selected for deletion.");
     }
   };
   
+  
 
-  const handleToggle = (value, setter) => {
-    setter((prevValues) =>
-      prevValues.includes(value)
-        ? prevValues.filter((item) => item !== value)
-        : [...prevValues, value]
+  const handleMeals = (value) => {
+    setMeals((prevMeals) =>
+      prevMeals.includes(value)
+        ? prevMeals.filter((meal) => meal !== value)
+        : [...prevMeals, value]
     );
   };
 
-  const handleMeals = (value) => handleToggle(value, setMeals);
-  const handleSnacks = (value) => handleToggle(value, setSnacks);
+  const handleSnacks = (value) => {
+    setSnacks((prevSnacks) =>
+      prevSnacks.includes(value)
+        ? prevSnacks.filter((snack) => snack !== value)
+        : [...prevSnacks, value]
+    );
+  };
+  
 
   return (
     <>
@@ -169,7 +235,11 @@ const Calendar = () => {
         title={title}
         setTitle={setTitle}
         diet={diet}
+        events={events}
+        setEvents={setEvents}
         setDiet={setDiet}
+        meals={meals}
+        snacks={snacks}
         handleMeals={handleMeals}
         handleSnacks={handleSnacks}
         setSnacks={setSnacks}

@@ -6,6 +6,8 @@ const CreateModal = ({
   setTitle,
   diet,
   setDiet,
+  meals,
+  snacks,
   handleMeals,
   handleSnacks,
   desc,
@@ -16,6 +18,7 @@ const CreateModal = ({
   handleModalSubmit,
   handleModalClose,
 }) => {
+  
   return (
     <>
       <Modal show={showModal} onHide={handleModalClose}>
@@ -49,33 +52,17 @@ const CreateModal = ({
             </Form.Select>
           </FloatingLabel>
           <Container className="radio-box">
-            <Form>
-              {["radio"].map((type) => (
-                <div key={`inline-${type}`}>
-                  <Form.Label className="form-label">No. of Meals: </Form.Label>
+            <Form className="mealBox">
+              <Form.Label className="form-label">No. of Meals: </Form.Label>
+              {["2", "3", "4"].map((value) => (
+                <div key={`inline-${value}`}>
                   <Form.Check
                     inline
-                    label="2"
-                    name="group1"
-                    type={type}
-                    onChange={() => handleMeals("2")}
-                    id={`inline-${type}-2`}
-                  />
-                  <Form.Check
-                    inline
-                    label="3"
-                    name="group1"
-                    type={type}
-                    onChange={() => handleMeals("3")}
-                    id={`inline-${type}-3`}
-                  />
-                  <Form.Check
-                    inline
-                    label="4"
-                    name="group1"
-                    type={type}
-                    onChange={() => handleMeals("4")}
-                    id={`inline-${type}-4`}
+                    label={value}
+                    name="meals"
+                    type="radio"
+                    onChange={() => handleMeals(value)}
+                    id={`inline-${value}`}
                   />
                 </div>
               ))}
@@ -88,25 +75,16 @@ const CreateModal = ({
                 label="Snacks Intake: "
                 onChange={(e) => setIsCheckboxChecked(e.target.checked)}
               />
-              {["radio"].map((type) => (
-                <div key={`inline-${type}`}>
+              {["1", "2"].map((value) => (
+                <div key={`inline-${value}`}>
                   <Form.Check
                     inline
                     disabled={!isCheckboxChecked}
-                    label="1"
-                    name="group1"
-                    type={type}
-                    onChange={() => handleSnacks("1")}
-                    id={`inline-${type}-1`}
-                  />
-                  <Form.Check
-                    inline
-                    disabled={!isCheckboxChecked}
-                    label="2"
-                    name="group1"
-                    type={type}
-                    onChange={() => handleSnacks("2")}
-                    id={`inline-${type}-2`}
+                    label={value}
+                    name="snacks"
+                    type="radio"
+                    onChange={() => handleSnacks(value)}
+                    id={`inline-${value}`}
                   />
                 </div>
               ))}
