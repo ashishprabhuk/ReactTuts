@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Modal, Form, Button, Container, FloatingLabel } from "react-bootstrap";
+import DataContext from "../context/DataContext";
 
 const CreateModal = ({
   title,
@@ -18,7 +19,22 @@ const CreateModal = ({
   handleModalSubmit,
   handleModalClose,
 }) => {
-  
+  // const {
+  //   title,
+  //   setTitle,
+  //   diet,
+  //   setDiet,
+  //   handleMeals,
+  //   handleSnacks,
+  //   desc,
+  //   setDesc,
+  //   showModal,
+  //   isCheckboxChecked,
+  //   setIsCheckboxChecked,
+  //   handleModalSubmit,
+  //   handleModalClose,
+  // } = useContext(DataContext);
+
   return (
     <>
       <Modal show={showModal} onHide={handleModalClose}>

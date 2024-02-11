@@ -1,12 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import DeleteModal from "./DeleteModal";
-import EditModal from "./EditModal";
-import CreateModal from "./CreateModal";
-import CalendarBox from "./CalendarBox";
-import { DataProvider } from "../context/DataContext.jsx";
+import { createContext, useEffect, useState } from "react";
 
-const Calendar = () => {
+const DataContext = createContext();
+
+export const DataProvider = ({ children }) => {
   const [events, setEvents] = useState(
     JSON.parse(localStorage.getItem("diet")) || []
   );
@@ -68,10 +64,7 @@ const Calendar = () => {
   const handleModalSubmit = () => {
     if (selectedEvent) {
       const calendarApi = selectedEvent.view.calendar;
-      console.log(selectedEvent);
-      const id = events.length
-        ? (parseInt(events[events.length - 1].id, 10) + 1).toString()
-        : "1";
+      const id = new Date().getTime();
       const newEvent = {
         id: id,
         title,
@@ -87,7 +80,6 @@ const Calendar = () => {
       calendarApi.addEvent(newEvent);
       const allEvents = [...events, newEvent];
       setEvents(allEvents);
-      console.log(allEvents[0].id);
       localStorage.setItem("diet", JSON.stringify(allEvents));
       setShowModal(false);
       setEditModal(false);
@@ -127,68 +119,6 @@ const Calendar = () => {
   //   }
   // };
 
-  // const handleEventUpdate = () => {
-  //   if (selectedEvent) {
-  //     const calendarApi = selectedEvent.view.calendar;
-  //     const updatedEvent = {
-  //       id: selectedEvent.id,
-  //       title: editTitle,
-  //       diet: editDiet,
-  //       desc: editDesc,
-  //       meals: editMeals,
-  //       isCheckboxChecked: isEditCheck,
-  //       snacks: editSnacks,
-  //       start: selectedEvent.startStr,
-  //       end: selectedEvent.endStr,
-  //       allDay: selectedEvent.allDay,
-  //     };
-  //     selectedEvent.event.setProp("title", updatedEvent.title);
-  //     selectedEvent.event.setProp("diet", updatedEvent.diet);
-  //     selectedEvent.event.setProp("desc", updatedEvent.desc);
-  //     selectedEvent.event.setProp("meals", updatedEvent.meals);
-  //     selectedEvent.event.setProp(
-  //       "isCheckboxChecked",
-  //       updatedEvent.isCheckboxChecked
-  //     );
-  //     selectedEvent.event.setProp("snacks", updatedEvent.snacks);
-  //     selectedEvent.event.setStart(updatedEvent.start);
-  //     selectedEvent.event.setEnd(updatedEvent.end);
-  //     selectedEvent.event.setAllDay(updatedEvent.allDay);
-  //     const updatedEvents = events.map((event) =>
-  //       event.id === selectedEvent.id ? updatedEvent : event
-  //     );
-  //     setEvents(updatedEvents);
-  //     localStorage.setItem("diet", JSON.stringify(updatedEvents));
-  //     handleModalClose();
-  //   }
-  // };
-
-  const handleDelete = () => {
-    if (selectedEvent) {
-      setShow(true);
-      setEditModal(false);
-    } else {
-      console.error("No event selected for deletion.");
-    }
-  };
-
-
-  // const handleDeleteConfirmation = () => {
-  //   if (selectedEvent) {
-  //     selectedEvent.event.remove();
-  //     const updatedEvents = events.filter(
-  //       (event) => event.id !== selectedEvent.id
-  //     );
-  //     setEvents(updatedEvents);
-  //     localStorage.setItem("diet", JSON.stringify(updatedEvents));
-  //     setShow(false);
-  //     setSelectedEvent(null);
-  //   } else {
-  //     console.error("No event selected for deletion.");
-  //   }
-  // };
-
-
   const handleEventUpdate = () => {
     if (selectedEvent) {
       const calendarApi = selectedEvent.view.calendar;
@@ -204,18 +134,18 @@ const Calendar = () => {
         end: selectedEvent.endStr,
         allDay: selectedEvent.allDay,
       };
-  
-      // Update event properties
       selectedEvent.event.setProp("title", updatedEvent.title);
       selectedEvent.event.setProp("diet", updatedEvent.diet);
       selectedEvent.event.setProp("desc", updatedEvent.desc);
       selectedEvent.event.setProp("meals", updatedEvent.meals);
-      selectedEvent.event.setProp("isCheckboxChecked", updatedEvent.isCheckboxChecked);
+      selectedEvent.event.setProp(
+        "isCheckboxChecked",
+        updatedEvent.isCheckboxChecked
+      );
       selectedEvent.event.setProp("snacks", updatedEvent.snacks);
       selectedEvent.event.setStart(updatedEvent.start);
       selectedEvent.event.setEnd(updatedEvent.end);
       selectedEvent.event.setAllDay(updatedEvent.allDay);
-  
       const updatedEvents = events.map((event) =>
         event.id === selectedEvent.id ? updatedEvent : event
       );
@@ -224,11 +154,39 @@ const Calendar = () => {
       handleModalClose();
     }
   };
-  
+
+  // const handleDelete = () => {
+  //   setShow(true);
+  //   setEditModal(false);
+  // };
+
+  const handleDelete = () => {
+    if (selectedEvent) {
+      setShow(true);
+      setEditModal(false);
+    } else {
+      console.error("No event selected for deletion.");
+    }
+  };
+
+  // const handleDeleteConfirmation = () => {
+  //   if (selectedEvent) {
+  //     selectedEvent.event.remove();
+  //     const updatedEvents = events.filter(
+  //       (event) => event.id !== selectedEvent.id
+  //     );
+  //     setEvents(updatedEvents);
+  //     localStorage.setItem("diet", JSON.stringify(updatedEvents));
+  //     setShow(false);
+  //   }
+  // };
+
   const handleDeleteConfirmation = () => {
     if (selectedEvent) {
-      selectedEvent.event.remove(); // Remove event from calendar
-      const updatedEvents = events.filter((event) => event.id !== selectedEvent.id);
+      selectedEvent.event.remove();
+      const updatedEvents = events.filter(
+        (event) => event.id !== selectedEvent.id
+      );
       setEvents(updatedEvents);
       localStorage.setItem("diet", JSON.stringify(updatedEvents));
       setShow(false);
@@ -237,7 +195,6 @@ const Calendar = () => {
       console.error("No event selected for deletion.");
     }
   };
-  
 
   const handleMeals = (value) => {
     setMeals((prevMeals) =>
@@ -256,69 +213,26 @@ const Calendar = () => {
   };
 
   return (
-    <>
-      <DataProvider>
-        <CalendarBox
-          handleDate={handleDate}
-          handleEvent={handleEvent}
-          events={events}
-          setEvents={setEvents}
-        />
-
-<CreateModal
-        title={title}
-        setTitle={setTitle}
-        diet={diet}
-        events={events}
-        setEvents={setEvents}
-        setDiet={setDiet}
-        meals={meals}
-        snacks={snacks}
-        handleMeals={handleMeals}
-        handleSnacks={handleSnacks}
-        setSnacks={setSnacks}
-        desc={desc}
-        setDesc={setDesc}
-        showModal={showModal}
-        isCheckboxChecked={isCheckboxChecked}
-        setIsCheckboxChecked={setIsCheckboxChecked}
-        handleModalSubmit={handleModalSubmit}
-        handleModalClose={handleModalClose}
-      />
-
-        <EditModal
-          events={events}
-          selectedEvent={selectedEvent}
-          setSelectedEvent={setSelectedEvent}
-          editModal={editModal}
-          editTitle={editTitle}
-          setEditTitle={setEditTitle}
-          editDiet={editDiet}
-          setEditDiet={setEditDiet}
-          editMeals={editMeals}
-          setEditMeals={setEditMeals}
-          editSnacks={editSnacks}
-          setEditSnacks={setEditSnacks}
-          editDesc={editDesc}
-          setEditDesc={setEditDesc}
-          isEditCheck={isEditCheck}
-          setEditCheck={setEditCheck}
-          handleModalClose={handleModalClose}
-          handleSnacks={handleSnacks}
-          handleMeals={handleMeals}
-          handleEvent={handleEvent}
-          handleEventUpdate={handleEventUpdate}
-          handleDelete={handleDelete}
-        />
-
-        <DeleteModal
-          show={show}
-          handleClose={handleClose}
-          handleDeleteConfirmation={handleDeleteConfirmation}
-        />
-      </DataProvider>
-    </>
+    <DataContext.Provider
+      value={{
+        title,
+        setTitle,
+        diet,
+        setDiet,
+        handleMeals,
+        handleSnacks,
+        desc,
+        setDesc,
+        showModal,
+        isCheckboxChecked,
+        setIsCheckboxChecked,
+        handleModalSubmit,
+        handleModalClose,
+      }}
+    >
+      {children}
+    </DataContext.Provider>
   );
 };
 
-export default Calendar;
+export default DataContext;
