@@ -1,15 +1,18 @@
-import { useState } from 'react'
-import './App.css'
-import Counter from './features/counter/Counter'
+import { useState } from "react";
+import "./index.css";
+import PostList from "./features/posts/PostsList";
+import { Routes, Route } from "react-router-dom";
+import AddPost from "./features/posts/AddPost";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <Counter/>
+      <Routes>
+        <Route path="/" element={<PostList />} />
+        <Route path="post" element={<AddPost />} />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

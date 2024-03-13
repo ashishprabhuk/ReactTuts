@@ -31,7 +31,7 @@ export default function Counter() {
         />
         <button onClick={() => dispatch(incAmount(addValue))}> add </button>
       </div>
-      <button onClick={resetAll}> Reset </button>
+      <button onClick={() => resetAll()}> Reset </button>
     </div>
   );
 }
