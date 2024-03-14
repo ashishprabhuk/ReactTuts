@@ -18,22 +18,22 @@ const postSlice = createSlice({
   initialState,
   reducers: {
     postAdded: {
-      reducer: (state, action) =>{
+      reducer: (state, action) => {
         // return [...state, action.payload];
-        state.push(action.payload)
+        state.push(action.payload);
       },
-      prepare: (title, content) => {
+      prepare: (title, content, userId) => {
         return {
           payload: {
             id: nanoid(),
             title,
             content,
+            userId,
           },
         };
       },
-    }
+    },
   },
-  
 });
 
 export const selectAllPosts = (state) => state.posts;

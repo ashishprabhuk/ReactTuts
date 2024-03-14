@@ -1,6 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
 import { selectAllPosts } from "./postSlice";
+import { selectAllUsers } from "../users/userSlice";
 import { Link } from "react-router-dom";
+import PostAuthor from "./PostAuthor";
 
 export default function PostsList() {
   const posts = useSelector(selectAllPosts);
@@ -16,6 +18,7 @@ export default function PostsList() {
               <article key={post.id}>
                 <h3>{post.title}</h3>
                 <p>{post.content}</p>
+                <PostAuthor userId={post.userId} />
               </article>
             </div>
           );
