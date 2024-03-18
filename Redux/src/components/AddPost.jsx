@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { postAdded } from "./postSlice";
+import { postAdded } from "../features/posts/postSlice";
 import { useNavigate } from "react-router-dom";
-import { selectAllUsers } from "../users/userSlice";
+import { selectAllUsers } from "../features/users/userSlice";
 
 export default function AddPost() {
   const [title, setTitle] = useState("");
@@ -19,6 +19,7 @@ export default function AddPost() {
       setTitle("");
       setContent("");
       setUserId("");
+      console.log(userId);
       navigate("/");
     }
   };

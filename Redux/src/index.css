@@ -50,7 +50,7 @@ label {
   color: #ffffff;
 }
 
-article{
+article {
   background-color: #181b24;
   display: flex;
   flex-direction: column;
@@ -83,10 +83,10 @@ button {
   margin: 10px auto;
   padding: 10px;
   border-radius: 5px;
-  max-width: 50%;
-  min-width: 100px !important;
+  /* max-width: 50%; */
+  /* min-width: 100px ; */
   border: 1px solid transparent;
-  background-color: #EEEEEE !important;
+  background-color: #eeeeee;
   color: #31363f;
   cursor: pointer;
 }
@@ -98,6 +98,19 @@ button:disabled {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.reactionBtn {
+  margin: 5px;
+  padding: 5px;
+  background-color: #31363f;
+  color: #eeeeee;
+  padding: 5px;
+  max-width: 20%;
+}
+
+.authTime {
+  display: flex;
 }
 
 /* Responsive CSS */
@@ -113,5 +126,12 @@ button:disabled {
   button {
     max-width: 70%;
     min-width: 80px !important;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .post {
+    margin: 10px;
+    max-width: 100%;
   }
 }
